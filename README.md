@@ -1,4 +1,4 @@
-# 🥫 Interview Secret Sauce
+# 🥫  Secret Sauce
 
 > A full-stack web application where students share and browse real interview experiences — questions, tips, and answers — to help each other land the offer.
 
