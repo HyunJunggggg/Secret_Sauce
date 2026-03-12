@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><%= title %> | Interview Secret Sauce</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/header.css" />
+  <% if (typeof extraStyles !== 'undefined' && Array.isArray(extraStyles)) { %>
+    <% extraStyles.forEach((href) => { %>
+      <link rel="stylesheet" href="<%= href %>" />
+    <% }) %>
+  <% } %>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 </head>
@@ -13,16 +19,22 @@
 <header class="navbar">
   <div class="navbar-inner">
     <a href="/" class="nav-brand">
-      <div class="nav-logo">🥫</div>
-      <div class="nav-brand-text">
-        <span class="brand-name">Interview Secret Sauce</span>
-        <span class="brand-sub">Ace your next interview</span>
-      </div>
+      <img src="/logo.svg" alt="Interview Secret Sauce logo" class="nav-logo" />
     </a>
     <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu">&#9776;</button>
     <nav class="nav-links" id="navLinks">
-      <a href="/" class="nav-link <%= (title === 'Browse Interviews') ? 'active' : '' %>">Browse</a>
-      <a href="/submit" class="nav-link nav-link-cta <%= (title === 'Share an Interview') ? 'active' : '' %>">+ Share Interview</a>
+      <a href="/" class="nav-link <%= (title === 'Browse Interviews') ? 'active' : '' %>">
+        <span class="nav-link-icon" aria-hidden="true">&#128269;</span>
+        <span>Browse</span>
+      </a>
+      <a href="/submit" class="nav-link nav-link-cta <%= (title === 'Share an Interview') ? 'active' : '' %>">
+        <span class="nav-link-icon" aria-hidden="true">+</span>
+        <span>Share Interview</span>
+      </a>
+      <a href="/practice" class="nav-link <%= (title === 'Practice') ? 'active' : '' %>">
+        <span class="nav-link-icon" aria-hidden="true">&#128214;</span>
+        <span>Practice</span>
+      </a>
     </nav>
   </div>
 </header>

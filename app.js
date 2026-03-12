@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const methodOverride = require('method-override');
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
+
 
 const interviewRoutes = require('./routes/interviews');
 
@@ -13,7 +14,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
-app.use(express.static(path.join(__dirname, 'public')));
+// Prevent an old public/index.html file from overriding EJS routes at `/`.
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method')); // allows PUT and DELETE from HTML forms

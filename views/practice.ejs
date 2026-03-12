@@ -1,0 +1,98 @@
+<%- include('partials/header', { extraStyles: ['/css/practice.css'] }) %>
+
+<div class="container">
+
+  <div class="page-hero">
+    <h1 class="hero-title">Practice Interview Questions</h1>
+    <p class="hero-sub">Choose how you want to practice first, then move through one flash card at a time.</p>
+  </div>
+
+  <% if (interviews.length === 0) { %>
+    <div class="empty-state">
+      <div class="empty-icon">🧠</div>
+      <h3>No practice questions found</h3>
+      <p>Try adjusting your search or filters, or <a href="/submit">share your own interview experience</a>.</p>
+    </div>
+  <% } else { %>
+    <script id="practiceData" type="application/json"><%- interviewsJson %></script>
+
+    <div class="practice-shell" id="practiceShell">
+      <section class="card practice-setup" id="practiceSetup">
+        <div class="practice-section-head">
+          <h2>Choose your practice mode</h2>
+          <p>Pick a role and company, or leave them on random for a mixed interview set.</p>
+        </div>
+
+        <div class="practice-setup-grid">
+          <div class="form-group">
+            <label class="form-label" for="practiceRoleSelect">Role</label>
+            <select class="field-input" id="practiceRoleSelect">
+              <option value="__random__">Random role</option>
+              <% roles.forEach(r => { %>
+                <option value="<%= r.role %>"><%= r.role %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="practiceCompanySelect">Company</label>
+            <select class="field-input" id="practiceCompanySelect">
+              <option value="__random__">Random company</option>
+              <% companies.forEach(c => { %>
+                <option value="<%= c.company %>"><%= c.company %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="practice-setup-actions">
+          <button type="button" class="btn-search" id="practiceStartButton">Start Practice</button>
+        </div>
+
+        <p class="practice-error" id="practiceError" hidden></p>
+      </section>
+
+      <section class="practice-session" id="practiceSession" hidden>
+        <div class="practice-progress">
+          <span id="practiceSelectionSummary"></span>
+          <span id="practiceCounter"></span>
+        </div>
+
+        <div class="card card-practice card-practice-single">
+          <div class="card-header">
+            <div class="card-tags">
+              <span class="tag tag-company" id="practiceCompany"></span>
+              <span class="tag tag-role" id="practiceRole"></span>
+            </div>
+          </div>
+
+          <h2 class="card-question" id="practiceQuestion"></h2>
+
+          <div class="card-freq">
+            <span class="freq-label">Frequency:</span>
+            <span class="stars" id="practiceFrequency"></span>
+          </div>
+
+          <div class="card-toggle" id="practiceToggle" aria-expanded="false">
+            <span class="toggle-text">View Answer &amp; Tips</span>
+            <span class="toggle-icon" id="practiceToggleIcon">⌄</span>
+          </div>
+
+          <div class="card-details" id="practiceDetails">
+            <div class="detail-label">Sample Answer &amp; Tips</div>
+            <div class="detail-text" id="practiceTips"></div>
+          </div>
+        </div>
+
+        <div class="practice-nav">
+          <button type="button" class="btn-clear practice-arrow" id="practicePrev">&lt;</button>
+          <button type="button" class="btn-clear" id="practiceReset">Change Setup</button>
+          <button type="button" class="btn-search practice-arrow" id="practiceNext">&gt;</button>
+        </div>
+      </section>
+    </div>
+  <% } %>
+
+</div>
+
+<%- include('partials/footer') %>
