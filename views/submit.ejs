@@ -1,0 +1,130 @@
+<%- include('partials/header') %>
+
+<div class="container container-narrow">
+
+  <div class="page-hero">
+    <h1 class="hero-title">Share an Interview Experience</h1>
+    <p class="hero-sub">Help fellow students prepare by sharing what you were asked</p>
+  </div>
+
+  <!-- ── Global Error Banner ── -->
+  <% if (errors && errors.length > 0 && !errors.find(e => e.path)) { %>
+  <div class="alert alert-error">
+    Please fix the errors below and try again.
+  </div>
+  <% } %>
+
+  <form class="form-card" action="/submit" method="POST" novalidate>
+
+    <div class="form-section-title">Company &amp; Role</div>
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label class="form-label" for="company">Company <span class="required">*</span></label>
+        <input
+          class="form-input <%= errors.find(e => e.path === 'company') ? 'input-error' : '' %>"
+          type="text"
+          id="company"
+          name="company"
+          placeholder="e.g. Google"
+          value="<%= formData.company || '' %>"
+          maxlength="100"
+        />
+        <% const companyErr = errors.find(e => e.path === 'company'); %>
+        <% if (companyErr) { %><span class="form-error-msg"><%= companyErr.msg %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="role">Job Role <span class="required">*</span></label>
+        <input
+          class="form-input <%= errors.find(e => e.path === 'role') ? 'input-error' : '' %>"
+          type="text"
+          id="role"
+          name="role"
+          placeholder="e.g. Software Engineer"
+          value="<%= formData.role || '' %>"
+          maxlength="100"
+        />
+        <% const roleErr = errors.find(e => e.path === 'role'); %>
+        <% if (roleErr) { %><span class="form-error-msg"><%= roleErr.msg %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="stage">Interview Stage <span class="required">*</span></label>
+        <select class="form-input" id="stage" name="stage">
+          <% const stages = ['Phone Screen', 'Technical Round', 'Behavioral Round', 'System Design', 'Final Round', 'Take-Home Assignment']; %>
+          <% stages.forEach(s => { %>
+            <option value="<%= s %>" <%= (formData.stage === s) ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="author_name">Your Name <span class="required">*</span></label>
+        <input
+          class="form-input <%= errors.find(e => e.path === 'author_name') ? 'input-error' : '' %>"
+          type="text"
+          id="author_name"
+          name="author_name"
+          placeholder="e.g. Alex K."
+          value="<%= formData.author_name || '' %>"
+        />
+        <% const nameErr = errors.find(e => e.path === 'author_name'); %>
+        <% if (nameErr) { %><span class="form-error-msg"><%= nameErr.msg %></span><% } %>
+        <span class="form-hint">Only shown as a first name + initial</span>
+      </div>
+
+    </div>
+
+    <div class="form-section-title" style="margin-top: 24px;">The Question</div>
+
+    <div class="form-group form-group-full">
+      <label class="form-label" for="question">Interview Question <span class="required">*</span></label>
+      <textarea
+        class="form-textarea <%= errors.find(e => e.path === 'question') ? 'input-error' : '' %>"
+        id="question"
+        name="question"
+        placeholder="What was the exact question you were asked?"
+        rows="3"
+      ><%= formData.question || '' %></textarea>
+      <% const qErr = errors.find(e => e.path === 'question'); %>
+      <% if (qErr) { %><span class="form-error-msg"><%= qErr.msg %></span><% } %>
+    </div>
+
+    <div class="form-group form-group-full" style="margin-top: 16px;">
+      <label class="form-label" for="tips">Your Answer &amp; Tips <span class="required">*</span></label>
+      <textarea
+        class="form-textarea <%= errors.find(e => e.path === 'tips') ? 'input-error' : '' %>"
+        id="tips"
+        name="tips"
+        placeholder="Share your answer, what worked for you, key points to cover, or common mistakes to avoid..."
+        rows="5"
+      ><%= formData.tips || '' %></textarea>
+      <% const tipsErr = errors.find(e => e.path === 'tips'); %>
+      <% if (tipsErr) { %><span class="form-error-msg"><%= tipsErr.msg %></span><% } %>
+    </div>
+
+    <div class="form-section-title" style="margin-top: 24px;">How Often Was This Asked?</div>
+
+    <div class="frequency-group">
+      <input type="hidden" name="frequency" id="frequency" value="<%= formData.frequency || 3 %>" />
+      <div class="stars-input" id="starsInput">
+        <% for (let i = 1; i <= 5; i++) { %>
+          <button type="button" class="star-btn <%= (parseInt(formData.frequency || 3) >= i) ? 'star-active' : '' %>" data-val="<%= i %>">★</button>
+        <% } %>
+      </div>
+      <span class="freq-hint" id="freqHint">
+        <% const fv = parseInt(formData.frequency || 3); %>
+        <%= fv === 1 ? 'Rarely asked' : fv === 2 ? 'Sometimes asked' : fv === 3 ? 'Commonly asked' : fv === 4 ? 'Very frequently asked' : 'Asked in almost every interview' %>
+      </span>
+    </div>
+
+    <div class="form-footer">
+      <button type="submit" class="btn-primary">Submit Interview →</button>
+    </div>
+
+  </form>
+
+</div>
+
+<%- include('partials/footer') %>

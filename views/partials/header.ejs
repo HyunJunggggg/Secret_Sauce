@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | Interview Secret Sauce</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="nav-brand">
+      <div class="nav-logo">🥫</div>
+      <div class="nav-brand-text">
+        <span class="brand-name">Interview Secret Sauce</span>
+        <span class="brand-sub">Ace your next interview</span>
+      </div>
+    </a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+    <nav class="nav-links" id="navLinks">
+      <a href="/" class="nav-link <%= (title === 'Browse Interviews') ? 'active' : '' %>">Browse</a>
+      <a href="/submit" class="nav-link nav-link-cta <%= (title === 'Share an Interview') ? 'active' : '' %>">+ Share Interview</a>
+      <a href="/contributions" class="nav-link <%= (title === 'All Contributions') ? 'active' : '' %>">Contributions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main-content">

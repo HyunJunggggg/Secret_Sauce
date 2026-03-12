@@ -1,0 +1,105 @@
+<%- include('partials/header') %>
+
+<div class="container container-narrow">
+
+  <div class="page-hero">
+    <h1 class="hero-title">Edit Interview Post</h1>
+    <p class="hero-sub">Update the details for this interview experience</p>
+  </div>
+
+  <form class="form-card" action="/interviews/<%= interview.id %>?_method=PUT" method="POST" novalidate>
+
+    <div class="form-section-title">Company &amp; Role</div>
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label class="form-label" for="company">Company <span class="required">*</span></label>
+        <input
+          class="form-input <%= errors.find(e => e.path === 'company') ? 'input-error' : '' %>"
+          type="text" id="company" name="company"
+          value="<%= interview.company %>" maxlength="100"
+        />
+        <% const companyErr = errors.find(e => e.path === 'company'); %>
+        <% if (companyErr) { %><span class="form-error-msg"><%= companyErr.msg %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="role">Job Role <span class="required">*</span></label>
+        <input
+          class="form-input <%= errors.find(e => e.path === 'role') ? 'input-error' : '' %>"
+          type="text" id="role" name="role"
+          value="<%= interview.role %>" maxlength="100"
+        />
+        <% const roleErr = errors.find(e => e.path === 'role'); %>
+        <% if (roleErr) { %><span class="form-error-msg"><%= roleErr.msg %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="stage">Interview Stage <span class="required">*</span></label>
+        <select class="form-input" id="stage" name="stage">
+          <% const stages = ['Phone Screen', 'Technical Round', 'Behavioral Round', 'System Design', 'Final Round', 'Take-Home Assignment']; %>
+          <% stages.forEach(s => { %>
+            <option value="<%= s %>" <%= (interview.stage === s) ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="author_name">Your Name <span class="required">*</span></label>
+        <input
+          class="form-input <%= errors.find(e => e.path === 'author_name') ? 'input-error' : '' %>"
+          type="text" id="author_name" name="author_name"
+          value="<%= interview.author_name %>"
+        />
+        <% const nameErr = errors.find(e => e.path === 'author_name'); %>
+        <% if (nameErr) { %><span class="form-error-msg"><%= nameErr.msg %></span><% } %>
+      </div>
+
+    </div>
+
+    <div class="form-section-title" style="margin-top: 24px;">The Question</div>
+
+    <div class="form-group form-group-full">
+      <label class="form-label" for="question">Interview Question <span class="required">*</span></label>
+      <textarea
+        class="form-textarea <%= errors.find(e => e.path === 'question') ? 'input-error' : '' %>"
+        id="question" name="question" rows="3"
+      ><%= interview.question %></textarea>
+      <% const qErr = errors.find(e => e.path === 'question'); %>
+      <% if (qErr) { %><span class="form-error-msg"><%= qErr.msg %></span><% } %>
+    </div>
+
+    <div class="form-group form-group-full" style="margin-top: 16px;">
+      <label class="form-label" for="tips">Your Answer &amp; Tips <span class="required">*</span></label>
+      <textarea
+        class="form-textarea <%= errors.find(e => e.path === 'tips') ? 'input-error' : '' %>"
+        id="tips" name="tips" rows="5"
+      ><%= interview.tips %></textarea>
+      <% const tipsErr = errors.find(e => e.path === 'tips'); %>
+      <% if (tipsErr) { %><span class="form-error-msg"><%= tipsErr.msg %></span><% } %>
+    </div>
+
+    <div class="form-section-title" style="margin-top: 24px;">Frequency</div>
+    <div class="frequency-group">
+      <input type="hidden" name="frequency" id="frequency" value="<%= interview.frequency %>" />
+      <div class="stars-input" id="starsInput">
+        <% for (let i = 1; i <= 5; i++) { %>
+          <button type="button" class="star-btn <%= (interview.frequency >= i) ? 'star-active' : '' %>" data-val="<%= i %>">★</button>
+        <% } %>
+      </div>
+      <span class="freq-hint" id="freqHint">
+        <% const fv = interview.frequency; %>
+        <%= fv === 1 ? 'Rarely asked' : fv === 2 ? 'Sometimes asked' : fv === 3 ? 'Commonly asked' : fv === 4 ? 'Very frequently asked' : 'Asked in almost every interview' %>
+      </span>
+    </div>
+
+    <div class="form-footer" style="justify-content: space-between;">
+      <a href="/contributions" class="btn-secondary">← Cancel</a>
+      <button type="submit" class="btn-primary">Save Changes →</button>
+    </div>
+
+  </form>
+
+</div>
+
+<%- include('partials/footer') %>
