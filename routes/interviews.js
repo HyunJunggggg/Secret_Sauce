@@ -114,6 +114,30 @@ router.get('/', async (req, res) => {
   }
 });
 
+// ─── GET /practice — Practice setup + flashcard flow ──────────────────────────
+router.get('/practice', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM interviews ORDER BY created_at DESC');
+    const companiesResult = await db.query('SELECT DISTINCT company FROM interviews ORDER BY company');
+    const rolesResult = await db.query('SELECT DISTINCT role FROM interviews ORDER BY role');
+
+    res.render('practice', {
+      title: 'Practice',
+      interviews: result.rows,
+      interviewsJson: JSON.stringify(result.rows).replace(/</g, '\\u003c'),
+      companies: companiesResult.rows,
+      roles: rolesResult.rows,
+    });
+  } catch (err) {
+    console.error('Error fetching practice interviews:', err);
+    res.status(500).render('error', {
+      title: 'Database Error',
+      message: 'Could not load practice questions. Please try again.',
+      statusCode: 500,
+    });
+  }
+});
+
 // ─── GET /submit — Show the submission form ───────────────────────────────────
 router.get('/submit', (req, res) => {
   res.render('submit', {
