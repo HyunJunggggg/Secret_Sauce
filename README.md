@@ -45,10 +45,9 @@ npm install
 ---
 
 ### Step 3 — Configure Environment Variables
-1. In the project folder, find `.env.example`
-2. Make a copy of it and rename the copy to `.env`
-3. Open `.env` and fill in your own credentials:
-
+1. In the project folder, create a new file called `.env`
+2. Open `.env` and fill in your own credentials:
+ 
 ```
 DB_HOST=localhost
 DB_PORT=5432
@@ -57,6 +56,7 @@ DB_USER=postgres
 DB_PASSWORD=your_postgres_password
 PORT=3000
 ```
+
 ---
 
 ### Step 4 — Start the Server
@@ -77,7 +77,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser ✅
 interview-secret-sauce/
 ├── app.js                  # Express server entry point
 ├── package.json
-├── .env.example            # Environment variable template (safe to share)
+├── .env           
 ├── .gitignore
 │
 ├── db/
