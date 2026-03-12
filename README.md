@@ -10,7 +10,7 @@
 |--------|---------|-----------------|
 | **[Member 1]** | Feature 1 — Submission Engine | Built the EJS form (`submit.ejs`) with all fields (Company, Role, Question, Tips, Stage, Frequency). Wrote the `POST /submit` Express route with server-side validation using `express-validator`. Designed the form layout in CSS. Set up the PostgreSQL `interviews` table schema (`db/schema.sql`). |
 | **[Member 2]** | Feature 2 — Browse & Search | Wrote the `GET /` route with dynamic SQL `ILIKE` queries for search and `LOWER()` for company/role filters. Built the interview card layout in EJS (`index.ejs`) and CSS. Implemented the stats row (total interviews, companies, roles). Added the auto-submit filter dropdowns in JavaScript. |
-| **[Member 3]** | Feature 3 — Edit/Delete & Global UI | Built the `GET /interviews/:id/edit`, `PUT /interviews/:id`, and `DELETE /interviews/:id` routes. Used `method-override` for PUT/DELETE from HTML forms. Created the Contributions page (`contributions.ejs`) and Edit page (`edit.ejs`). Built the responsive navbar, footer, and overall CSS theme. Ensured mobile responsiveness. |
+| **[Member 3]** | Feature 3 — Edit/Delete & Global UI | Built the `GET /interviews/:id/edit`, `PUT /interviews/:id`, and `DELETE /interviews/:id` routes. Used `method-override` for PUT/DELETE from HTML forms. Created the Edit page (`edit.ejs`) and built the responsive navbar, footer, and overall CSS theme. Ensured mobile responsiveness. |
 
 ---
 
@@ -105,7 +105,6 @@ interview-secret-sauce/
 │   │   └── footer.ejs      # Footer + scripts
 │   ├── index.ejs           # Browse + search page
 │   ├── submit.ejs          # Share interview form
-│   ├── contributions.ejs   # All posts with edit/delete
 │   ├── edit.ejs            # Edit interview form
 │   └── error.ejs           # 404/500 error page
 │
@@ -137,6 +136,6 @@ interview-secret-sauce/
 
 - **Browse & Search** — Filter interviews by keyword, company, or role using SQL `ILIKE` queries
 - **Share an Interview** — Submit experiences with server-side validation; stored in PostgreSQL
-- **Edit & Delete** — Full CRUD lifecycle via RESTful routes and `method-override`
+- **Edit & Delete** — Interviews can still be updated or removed through the existing edit/delete routes with `method-override`
 - **Responsive Design** — Mobile-friendly layout with hamburger menu
 - **Error Handling** — Graceful 404/500 error pages and inline form validation feedback
