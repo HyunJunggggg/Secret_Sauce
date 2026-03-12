@@ -8,9 +8,11 @@
 
 | Member | Feature | Tasks Completed |
 |--------|---------|-----------------|
-| **[Member 1]** | Feature 1 — Submission Engine | Built the EJS form (`submit.ejs`) with all fields (Company, Role, Question, Tips, Stage, Frequency). Wrote the `POST /submit` Express route with server-side validation using `express-validator`. Designed the form layout in CSS. Set up the PostgreSQL `interviews` table schema (`db/schema.sql`). |
-| **[Member 2]** | Feature 2 — Browse & Search | Wrote the `GET /` route with dynamic SQL `ILIKE` queries for search and `LOWER()` for company/role filters. Built the interview card layout in EJS (`index.ejs`) and CSS. Implemented the stats row (total interviews, companies, roles). Added the auto-submit filter dropdowns in JavaScript. |
-| **[Member 3]** | Feature 3 — Edit/Delete & Global UI | Built the `GET /interviews/:id/edit`, `PUT /interviews/:id`, and `DELETE /interviews/:id` routes. Used `method-override` for PUT/DELETE from HTML forms. Created the Edit page (`edit.ejs`) and built the responsive navbar, footer, and overall CSS theme. Ensured mobile responsiveness. |
+| **Hyunjung** | Feature 1 — Submission Engine & Database Setup | Set up the PostgreSQL database schema (`db/schema.sql`) and connection pool (`db/index.js`). Built the EJS submission form (`submit.ejs`) with all fields — Company, Role, Question, Tips, Stage, and Frequency star rating. Wrote the `POST /submit` Express route with server-side validation using `express-validator`. Configured the `.env` environment setup and overall project structure. |
+| **Mai** | Feature 2 — Browse & Search | Wrote the `GET /` route with dynamic parameterized SQL queries using `ILIKE` for keyword search and `LOWER()` for company/role filtering. Built the interview card layout in EJS (`index.ejs`) with expandable answer sections. Implemented the stats row displaying total interviews, companies, and roles fetched from the database. Added the API route (`GET /api/interviews`) for the HTML landing page. |
+| **Pat** | Feature 3 — Edit & Delete (CRUD) | Built the `GET /interviews/:id/edit`, `PUT /interviews/:id`, and `DELETE /interviews/:id` Express routes. Used `method-override` middleware to support PUT and DELETE from standard HTML forms. Created the Contributions page (`contributions.ejs`) and Edit page (`edit.ejs`) with pre-filled form data loaded from PostgreSQL. Handled graceful error responses for missing records. |
+| **Rosie** | Global UI & Frontend | Designed and built the full CSS stylesheet (`style.css`) including the navbar, footer, card layout, form styles, and responsive mobile design. Created the HTML landing page (`public/index.html`). Built the client-side JavaScript (`main.js`) for card toggling, star rating input, mobile nav, and auto-dismissing alerts. Ensured consistent UI and user experience across all pages. |
+
 
 ---
 
@@ -19,67 +21,54 @@
 ### Prerequisites
 - [Node.js](https://nodejs.org/) v18 or higher
 - [PostgreSQL](https://www.postgresql.org/) v14 or higher
-- npm (comes with Node.js)
+- pgAdmin 4
+
+---
 
 ### Step 1 — Clone the Repository
-
 ```bash
-git clone https://github.com/YOUR_USERNAME/interview-secret-sauce.git
-cd interview-secret-sauce
-```
-
-### Step 2 — Install Dependencies
-
-```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+cd YOUR_REPO_NAME
 npm install
 ```
 
-### Step 3 — Set Up the Database
+---
 
-Open your PostgreSQL shell (or pgAdmin) and run:
+### Step 2 — Set Up the Database
+1. Open **pgAdmin 4**
+2. In the left sidebar, right-click **Databases** → **Create** → **Database**
+3. Enter `Secret_Sauce` as the database name → click **Save**
+4. Click on `Secret_Sauce` to select it
+5. Go to **Tools** → **Query Tool**
+6. Open the file `db/schema.sql` from the project folder, copy the entire contents, and paste it into the Query Tool
+7. Click the **▶️ Run** button to create the table and insert sample data
 
-```sql
-CREATE DATABASE interview_secret_sauce;
-```
+---
 
-Then apply the schema and seed data:
-
-```bash
-psql -U your_postgres_username -d interview_secret_sauce -f db/schema.sql
-```
-
-### Step 4 — Configure Environment Variables
-
-Copy the example environment file and fill in your credentials:
-
-```bash
-cp .env.example .env
-```
-
-Open `.env` and edit:
-
+### Step 3 — Configure Environment Variables
+1. In the project folder, create a new file called `.env`
+2. Open `.env` and fill in your own credentials:
+ 
 ```
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=interview_secret_sauce
-DB_USER=your_postgres_username
+DB_NAME=Secret_Sauce
+DB_USER=postgres
 DB_PASSWORD=your_postgres_password
 PORT=3000
 ```
 
-### Step 5 — Start the Server
+---
 
+### Step 4 — Start the Server
 ```bash
-# Production
-npm start
-
-# Development (auto-restarts on file changes)
 npm run dev
 ```
 
-### Step 6 — Open the App
+---
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser.
+### Step 5 — Open the App
+Visit [http://localhost:3000](http://localhost:3000) in your browser ✅
 
 ---
 
@@ -89,7 +78,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 interview-secret-sauce/
 ├── app.js                  # Express server entry point
 ├── package.json
-├── .env.example            # Environment variable template
+├── .env           
 ├── .gitignore
 │
 ├── db/
@@ -97,11 +86,11 @@ interview-secret-sauce/
 │   └── schema.sql          # Table creation + seed data
 │
 ├── routes/
-│   └── interviews.js       # All CRUD route handlers
+│   └── interviews.js       # All CRUD route handlers + API
 │
 ├── views/
 │   ├── partials/
-│   │   ├── header.ejs      # Navbar + <head>
+│   │   ├── header.ejs      # Navbar + head
 │   │   └── footer.ejs      # Footer + scripts
 │   ├── index.ejs           # Browse + search page
 │   ├── submit.ejs          # Share interview form
@@ -109,10 +98,11 @@ interview-secret-sauce/
 │   └── error.ejs           # 404/500 error page
 │
 └── public/
+    ├── index.html          # HTML landing page
     ├── css/
     │   └── style.css       # Full stylesheet
     └── js/
-        └── main.js         # Client-side JS
+        └── main.js         # Client-side JavaScript
 ```
 
 ---
@@ -121,7 +111,7 @@ interview-secret-sauce/
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend structure | HTML5 via EJS templates |
+| Frontend structure | HTML5 + EJS templates |
 | Styling | CSS3 (custom, no frameworks) |
 | Client interactivity | Vanilla JavaScript |
 | Server | Node.js + Express.js |
@@ -134,8 +124,8 @@ interview-secret-sauce/
 
 ## 🔑 Key Features
 
-- **Browse & Search** — Filter interviews by keyword, company, or role using SQL `ILIKE` queries
+- **Browse & Search** — Filter interviews by keyword, company, or role using SQL ILIKE queries
 - **Share an Interview** — Submit experiences with server-side validation; stored in PostgreSQL
-- **Edit & Delete** — Interviews can still be updated or removed through the existing edit/delete routes with `method-override`
+- **Edit & Delete** — Full CRUD lifecycle via RESTful routes and method-override
 - **Responsive Design** — Mobile-friendly layout with hamburger menu
 - **Error Handling** — Graceful 404/500 error pages and inline form validation feedback
