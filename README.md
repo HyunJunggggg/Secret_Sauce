@@ -13,6 +13,7 @@
 | **Pat** | Feature 3 — Edit & Delete (CRUD) | Built the `GET /interviews/:id/edit`, `PUT /interviews/:id`, and `DELETE /interviews/:id` Express routes. Used `method-override` middleware to support PUT and DELETE from standard HTML forms. Created the Contributions page (`contributions.ejs`) and Edit page (`edit.ejs`) with pre-filled form data loaded from PostgreSQL. Handled graceful error responses for missing records. |
 | **Rosie** | Global UI & Frontend | Designed and built the full CSS stylesheet (`style.css`) including the navbar, footer, card layout, form styles, and responsive mobile design. Created the HTML landing page (`public/index.html`). Built the client-side JavaScript (`main.js`) for card toggling, star rating input, mobile nav, and auto-dismissing alerts. Ensured consistent UI and user experience across all pages. |
 
+
 ---
 
 ## 🚀 How to Run the Application Locally
@@ -93,7 +94,6 @@ interview-secret-sauce/
 │   │   └── footer.ejs      # Footer + scripts
 │   ├── index.ejs           # Browse + search page
 │   ├── submit.ejs          # Share interview form
-│   ├── contributions.ejs   # All posts with edit/delete
 │   ├── edit.ejs            # Edit interview form
 │   └── error.ejs           # 404/500 error page
 │

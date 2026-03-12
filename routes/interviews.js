@@ -155,24 +155,6 @@ router.post('/submit', interviewValidation, async (req, res) => {
   }
 });
 
-// ─── GET /contributions — My contributions page (all posts for editing) ───────
-router.get('/contributions', async (req, res) => {
-  try {
-    const result = await db.query('SELECT * FROM interviews ORDER BY created_at DESC');
-    res.render('contributions', {
-      title: 'All Contributions',
-      interviews: result.rows,
-    });
-  } catch (err) {
-    console.error('Error fetching contributions:', err);
-    res.status(500).render('error', {
-      title: 'Database Error',
-      message: 'Could not load contributions. Please try again.',
-      statusCode: 500,
-    });
-  }
-});
-
 // ─── GET /interviews/:id/edit — Show edit form ────────────────────────────────
 router.get('/interviews/:id/edit', async (req, res) => {
   const { id } = req.params;
@@ -237,7 +219,7 @@ router.put('/interviews/:id', interviewValidation, async (req, res) => {
       });
     }
 
-    res.redirect('/contributions?updated=1');
+    res.redirect('/?updated=1');
   } catch (err) {
     console.error('Error updating interview:', err);
     res.status(500).render('error', {
@@ -263,7 +245,7 @@ router.delete('/interviews/:id', async (req, res) => {
       });
     }
 
-    res.redirect('/contributions?deleted=1');
+    res.redirect('/?deleted=1');
   } catch (err) {
     console.error('Error deleting interview:', err);
     res.status(500).render('error', {
